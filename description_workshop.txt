@@ -1,0 +1,24 @@
+
+[ESP]
+
+bGamesMod es un mod que conecta Terraria con bGames, con el objetivo de enriquecer la experiencia de juego al mismo tiempo que se fomenta el desarrollo de actividades productivas y saludables en dimensiones físicas, sociales, afectivas y cognitivas.
+
+bGames es un framework desarrollado por el Laboratorio de InTeractiOn, el cual tiene como objetivo fomentar el desarrollo de actividades dejadas de lado por la adicción a los videojuegos a través de la captura de datos de actividades saludables, otorgando puntos que podrán ser utilizados dentro de los videojuegos compatibles con bGames para obtener mejoras o recompensas.
+
+Para más información acerca de cómo instalar el framework para utilizar el mod, se deben seguir los pasos del tutorial disponible en el siguiente repositorio de GitHub:
+[url=https://github.com/clmunozm/bGames-Terraria.git Tutorial[/url]
+
+Si necesitas ayuda, no dudes en preguntar!
+
+[ENG]
+
+bGamesMod is a mod that connects Terraria with bGames, with the goal of enriching the gaming experience while promoting the development of productive and healthy activities in physical, social, emotional, and cognitive dimensions.
+
+bGames is a framework developed by the InTeractiOn Laboratory, which aims to encourage the development of activities that are often neglected due to video game addiction by capturing data on healthy activities, awarding points that can be used within bGames-compatible video games to obtain upgrades or rewards.
+
+For more information on how to install the framework to use the mod, follow the steps in the tutorial available in the following GitHub repository:
+[url= Tutorial[/url]
+
+If you need any more help, feel free to ask!
+
+bGames Mod is based on the Hero's Mod for tModLoader developed by javidpack (https://github.com/JavidPack/HEROsMod).
