@@ -154,7 +154,7 @@ namespace bGamesMod.bGamesModServices
 		// TODO: Scroll view esta malo, no permite moverlo clickeandolo, solo funciona con scroll wheel
 		private void PopulateBuffList(List<MechanicDto> mechanics)
 		{
-			scrollView.RemoveAllChildren();
+			scrollView.ClearContent();
 			float yPos = Spacing;
 
 			foreach (MechanicDto m in mechanics)
@@ -184,6 +184,9 @@ namespace bGamesMod.bGamesModServices
 					Tag = buffType,
 					Tooltip = Lang.GetBuffDescription(buffType) ?? string.Empty,
 				};
+
+				// Suscribir el event handler bg_onLeftClick al event onLeftClick
+				// Esto hace que bg_onLeftClick se ejecute automáticamente cada vez que se clickea este elemento
 				bg.onLeftClick += bg_onLeftClick;
 
 				UIImage buffImage = new UIImage(TextureAssets.Buff[buffType]) {
@@ -279,6 +282,8 @@ namespace bGamesMod.bGamesModServices
 				bool success = await BuffApiService.RedeemAsync(Login.UserID, request);
 				if (success)
 				{
+					// Solo se aplica el buff si el canje fue exitoso
+					Main.player[Main.myPlayer].AddBuff(buffType, 60 * 60); // 60 seconds
 					LoadPlayerAttributes(userID);
 				}
 				else
@@ -299,12 +304,12 @@ namespace bGamesMod.bGamesModServices
 
 		private void bg_onLeftClick(object sender, EventArgs e)
 		{
+			// Accedes al objeto que fue clickeado y obtienes buffType desde su propiedad Tag
 			int buffType = (int)((UIView)sender).Tag;
 			const int cost = 5;
 
 			if (cost <= puntos)
 			{
-				Main.player[Main.myPlayer].AddBuff(buffType, 60 * 60); // 60 seconds
 				SpendPoints(buffType, cost);
 			}
 			else
