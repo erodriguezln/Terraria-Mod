@@ -1,14 +1,11 @@
-﻿using bGamesMod.UIKit;
+﻿using bGamesMod.Models;
+using bGamesMod.UIKit;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
 
 namespace bGamesMod.bGamesModServices
 {
@@ -33,8 +30,7 @@ namespace bGamesMod.bGamesModServices
 		public static bool LoggedIn
 		{
 			get { return _loggedIn; }
-			set
-			{
+			set {
 				_loggedIn = value;
 				LoginStatusChanged?.Invoke(null, EventArgs.Empty);
 			}
@@ -50,12 +46,16 @@ namespace bGamesMod.bGamesModServices
 			MultiplayerOnly = true;
 			if (_loginTexture == null)
 			{
-				_loginTexture = bGamesMod.instance.Assets.Request<Texture2D>("Images/login", AssetRequestMode.ImmediateLoad);
+				_loginTexture =
+					bGamesMod.instance.Assets.Request<Texture2D>("Images/login", AssetRequestMode.ImmediateLoad);
 			}
+
 			if (_logoutTexture == null)
 			{
-				_logoutTexture = bGamesMod.instance.Assets.Request<Texture2D>("Images/logout", AssetRequestMode.ImmediateLoad);
+				_logoutTexture =
+					bGamesMod.instance.Assets.Request<Texture2D>("Images/logout", AssetRequestMode.ImmediateLoad);
 			}
+
 			this._name = "Login";
 			this._hotbarIcon = new UIImage(_loginTexture);
 			this._hotbarIcon.onLeftClick += _hotbarIcon_onLeftClick;
@@ -126,7 +126,6 @@ namespace bGamesMod.bGamesModServices
 
 
 			this.Anchor = AnchorPosition.Center;
-
 
 
 			lUsername = new UILabel(bGamesMod.HeroText("Username"));
@@ -202,8 +201,10 @@ namespace bGamesMod.bGamesModServices
 			cbRememberPassword.Y = lSaveLogin.Y + lSaveLogin.Height + spacing;
 
 
-			bCancel.Position = new Vector2(this.GetWidth() - spacing, cbRememberPassword.Y + cbRememberPassword.Height + spacing);
-			bLogin.Position = new Vector2(bCancel.Position.X - bCancel.Width - spacing - lSaveLogin.Width / 2, bCancel.Position.Y);
+			bCancel.Position = new Vector2(this.GetWidth() - spacing,
+				cbRememberPassword.Y + cbRememberPassword.Height + spacing);
+			bLogin.Position = new Vector2(bCancel.Position.X - bCancel.Width - spacing - lSaveLogin.Width / 2,
+				bCancel.Position.Y);
 			this.Height = bCancel.Y + bCancel.Height + spacing;
 
 			bSaveNone.Tooltip = bGamesMod.HeroText("SaveLoginNoneTooltip");
@@ -326,44 +327,33 @@ namespace bGamesMod.bGamesModServices
 
 				string username = tbUsername.Text;
 				string password = tbPassword.Text;
-				string url = $"http://localhost:8001/login";
 
-				using (var client = new HttpClient())
+				try
 				{
-					try
+					var loginResult = await AuthService.LoginAsync(username, password);
+
+					if (loginResult != null && !Login.LoggedIn)
 					{
-						var postData = new Dictionary<string, string> { { "username", username }, { "password", password } };
-						var content = new FormUrlEncodedContent(postData);
+						Login.accessToken = loginResult.AccessToken;
 
-						// var response = await httpClient.GetAsync(url);
-						var response = await client.PostAsync(url, content);
-						if (response.IsSuccessStatusCode && Login.LoggedIn == false)
+						var whoAmI = await AuthService.WhoAmIAsync(Login.AccessToken);
+						if (whoAmI != null)
 						{
-							var data = await response.Content.ReadFromJsonAsync<LoginResponse>();
-							Login.accessToken = data?.access_token;
-
-							client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login.AccessToken);
-							var whoAmiResponse = await client.GetFromJsonAsync<WhoAmIResponse>("http://localhost:8001/whoami");
-							if(whoAmiResponse != null)
-							{
-								Login.userID = whoAmiResponse.id_players.ToString();
-							}
-
-							// Aquí puedes almacenar el userID según tus necesidades
-							// Por ejemplo, podrías guardarlo en una variable estática o pasarlo a otro método
-							Main.NewText(bGamesMod.HeroText("LoginSuccessful"));
-							Login.LoggedIn = true;
-							Close();
+							Login.userID = whoAmI.IdPlayers.ToString();
 						}
-						else if(Login.LoggedIn == false)
-						{
-							Main.NewText(bGamesMod.HeroText("InvalidCredentials"));
-						}
+
+						Main.NewText(bGamesMod.HeroText("LoginSuccessful"));
+						Login.LoggedIn = true;
+						Close();
 					}
-					catch (Exception ex)
+					else if (!Login.LoggedIn)
 					{
-						Main.NewText(bGamesMod.HeroText("FailedConnectServer") + $"{ex.Message}");
+						Main.NewText(bGamesMod.HeroText("InvalidCredentials"));
 					}
+				}
+				catch (Exception ex)
+				{
+					Main.NewText(bGamesMod.HeroText("FailedConnectServer") + $"{ex.Message}");
 				}
 			}
 			else
@@ -443,24 +433,5 @@ namespace bGamesMod.bGamesModServices
 				this.Position = new Vector2(Parent.Width / 2, Parent.Height / 2);
 			base.Update();
 		}
-	}
-
-	internal class LoginResponse
-	{
-		public string access_token { get; set; }
-		public string token_type { get; set; }
-	}
-
-	internal class WhoAmIResponse
-	{
-		public int id_players { get; set; }
-
-		public string name { get; set; }
-
-		public string email { get; set; }
-
-		public int age { get; set; }
-
-		public string role { get; set; }
 	}
 }
