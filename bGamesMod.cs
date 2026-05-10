@@ -62,6 +62,12 @@ namespace bGamesMod
 				}
 
 				Init_Load();
+
+				// Start the reward HTTP server
+				RewardHttpServer.Start(
+					onReward: ApplyBuff,
+					logger:   ModUtils.DebugText
+				);
 			}
 			catch (Exception e)
 			{
@@ -117,6 +123,11 @@ namespace bGamesMod
 			ServiceController = null;
 			ModUtils.previousInventoryItems = null;
 			modCategories = null;
+
+			// Stop the reward HTTP server
+			RewardHttpServer.Stop();
+
+
 			instance = null;
 		}
 		
@@ -193,6 +204,9 @@ namespace bGamesMod
 
 		public static void Update(/*GameTime gameTime*/)
 		{
+			// Drain pending buff from the HTTP server
+			RewardHttpServer.DrainPending();
+
 			if (ModUtils.NetworkMode != NetworkMode.Server)
 			{
 				ModUtils.PreviousKeyboardState = Main.keyState;
@@ -252,6 +266,23 @@ namespace bGamesMod
 			{
 				Main.hoverItemName = UIView.HoverText;
 			}
+		}
+
+		private static void ApplyBuff(int buffId)
+		{
+			if (buffId >= Terraria.ID.BuffID.Count) return;
+			if (Main.gameMenu || Main.myPlayer < 0 || Main.myPlayer >= Main.player.Length) return;
+
+			var player = Main.player[Main.myPlayer];
+			if (player == null || !player.active) return;
+
+			player.AddBuff(buffId, 60 * 60);
+
+			string buffName = Terraria.ID.BuffID.Search.TryGetName(buffId, out string name)
+				? name : $"Buff #{buffId}";
+
+			Main.NewText($"[bGamesMod] Buff aplicado: {buffName}", 100, 220, 100);
+			ModUtils.DebugText($"[RewardHttpServer] Buff {buffId} ({buffName}) → {Main.player[Main.myPlayer].name}");
 		}
 	}
 }

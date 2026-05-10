@@ -151,7 +151,6 @@ namespace bGamesMod.bGamesModServices
 		}
 
 		// Puebla la ventana de mecanicas con las mecanicas traidas del backend remoto/cliente lsg
-		// TODO: Scroll view esta malo, no permite moverlo clickeandolo, solo funciona con scroll wheel
 		private void PopulateBuffList(List<MechanicDto> mechanics)
 		{
 			scrollView.ClearContent();
@@ -263,7 +262,7 @@ namespace bGamesMod.bGamesModServices
 
 		private async void SpendPoints(int buffType, int pointsToSpend)
 		{
-			// TODO: ¿Como podria suceder este error si la unica forma de ver las recompensas es porque vienen del servidor?
+			// Chequeo defensivo: evita usar un buff no sincronizado (no deberia suceder dado que poblamos el mapa, quizas resincronización).
 			if (!_mechanicsMap.TryGetValue(buffType, out int mechanicVgId))
 			{
 				Main.NewText("Esta recompensa aún no está registrada en el servidor.");
