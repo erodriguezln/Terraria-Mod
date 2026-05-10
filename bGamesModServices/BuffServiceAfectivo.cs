@@ -7,6 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -176,12 +179,23 @@ namespace bGamesMod.bGamesModServices
 			{
 				using (var client = new HttpClient())
 				{
-					var response = await client.GetStringAsync("http://localhost:5001/player_all_attributes/" + userID);
-					var attributes = JsonConvert.DeserializeObject<List<PlayerAttribute>>(response);
-					if (attributes != null && attributes.Any())
+					client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login.AccessToken);
+
+					var attributes = await client.GetFromJsonAsync<List<PlayerAttribute>>($"http://localhost:8012/players/{userID}/attributes/points");
+
+					if (attributes != null)
 					{
-						puntos = attributes[2].data;
-						lblPoints.Text = puntos.ToString();
+						var afectivoAttr = attributes.FirstOrDefault(a => a.id_attributes == 3);
+						if (afectivoAttr != null)
+						{
+							puntos = afectivoAttr.data;
+							lblPoints.Text = puntos.ToString();
+						}
+						else
+						{
+							Main.NewText("No se encontró el atributo con ID 3.");
+						}
+
 					}
 				}
 			}
@@ -197,16 +211,22 @@ namespace bGamesMod.bGamesModServices
 			{
 				using (var client = new HttpClient())
 				{
-					var postData = new {
-						id_player = userID,
-						id_videogame = 5,
-						id_attributes = 2,
-						new_data = pointsToSpend
+
+					var request = new RedeemRequest
+					{
+						MechanicId = 15,
+						DimensionId = 3,
+						Amount = 50,
+						Metadata = new RedeemMetadata { Note = "Test redeem from Bruno" }
 					};
 
-					var json = JsonConvert.SerializeObject(postData);
-					var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-					var response = await client.PostAsync("http://localhost:5001/spend_attribute/", content);
+					client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login.AccessToken);
+
+					var videoGameID = 12;
+					var url = $"http://localhost:8012/videogames/{videoGameID}/players/{Login.UserID}/redeem";
+
+					var response = await client.PostAsJsonAsync(url, request);
+
 					if (response.IsSuccessStatusCode)
 					{
 						LoadPlayerAttributes(userID);
@@ -245,11 +265,44 @@ namespace bGamesMod.bGamesModServices
 			}
 		}
 
+
 		internal class PlayerAttribute
 		{
-			public int id_attributes { get; set; }
+			// Campos con nombres personalizados
+			[JsonPropertyName("attribute_name")]
 			public string name { get; set; }
+
+			[JsonPropertyName("balance_ledger")]
 			public int data { get; set; }
+
+			// Resto de los campos del JSON (manteniendo sus nombres originales)
+			public int id_players { get; set; }
+			public string player_name { get; set; }
+			public string player_email { get; set; }
+			public int id_attributes { get; set; }
+			public int snapshot_points { get; set; }
+			public int diff_ledger_minus_snapshot { get; set; }
+		}
+
+		public class RedeemRequest
+		{
+			[JsonPropertyName("modifiable_mechanic_videogame_id")]
+			public int MechanicId { get; set; }
+
+			[JsonPropertyName("point_dimension_id")]
+			public int DimensionId { get; set; }
+
+			[JsonPropertyName("amount")]
+			public int Amount { get; set; }
+
+			[JsonPropertyName("metadata")]
+			public RedeemMetadata Metadata { get; set; }
+		}
+
+		public class RedeemMetadata
+		{
+			[JsonPropertyName("note")]
+			public string Note { get; set; }
 		}
 	}
 }

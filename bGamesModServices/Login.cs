@@ -3,9 +3,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace bGamesMod.bGamesModServices
 {
@@ -13,10 +16,17 @@ namespace bGamesMod.bGamesModServices
 	{
 		private static bool _loggedIn = false;
 		public static string userID = "null";
+		public static string accessToken = "null";
 		public static event Action OnLogout;
 
-		public static string UserID 
-		{ 
+		public static string AccessToken
+		{
+			get { return accessToken; }
+			set { accessToken = value; }
+		}
+
+		public static string UserID
+		{
 			get { return userID; }
 		}
 
@@ -114,11 +124,11 @@ namespace bGamesMod.bGamesModServices
 		{
 			UIView.exclusiveControl = this;
 
-			
+
 			this.Anchor = AnchorPosition.Center;
-		
-			
-			
+
+
+
 			lUsername = new UILabel(bGamesMod.HeroText("Username"));
 			tbUsername = new UITextbox();
 			lPassword = new UILabel(bGamesMod.HeroText("Password"));
@@ -183,14 +193,14 @@ namespace bGamesMod.bGamesModServices
 			lSaveLogin.Y = lPassword.Y + lPassword.Height + spacing;
 			bSaveNone.X = lSaveLogin.X + lSaveLogin.Width + spacing;
 			bSaveNone.Y = lSaveLogin.Y;
-		
+
 			bSaveDefault.X = bSaveNone.X + bSaveNone.Width;
 			bSaveDefault.Y = bSaveNone.Y;
 			bSavePlayer.X = bSaveDefault.X + bSaveDefault.Width;
 			bSavePlayer.Y = bSaveDefault.Y;
 			cbRememberPassword.X = bSaveNone.X;
 			cbRememberPassword.Y = lSaveLogin.Y + lSaveLogin.Height + spacing;
-			
+
 
 			bCancel.Position = new Vector2(this.GetWidth() - spacing, cbRememberPassword.Y + cbRememberPassword.Height + spacing);
 			bLogin.Position = new Vector2(bCancel.Position.X - bCancel.Width - spacing - lSaveLogin.Width / 2, bCancel.Position.Y);
@@ -316,16 +326,29 @@ namespace bGamesMod.bGamesModServices
 
 				string username = tbUsername.Text;
 				string password = tbPassword.Text;
-				string url = $"http://localhost:5001/player/{username}/{password}";
+				string url = $"http://localhost:8001/login";
 
-				using (var httpClient = new HttpClient())
+				using (var client = new HttpClient())
 				{
 					try
 					{
-						var response = await httpClient.GetAsync(url);
+						var postData = new Dictionary<string, string> { { "username", username }, { "password", password } };
+						var content = new FormUrlEncodedContent(postData);
+
+						// var response = await httpClient.GetAsync(url);
+						var response = await client.PostAsync(url, content);
 						if (response.IsSuccessStatusCode && Login.LoggedIn == false)
 						{
-							Login.userID = await response.Content.ReadAsStringAsync();
+							var data = await response.Content.ReadFromJsonAsync<LoginResponse>();
+							Login.accessToken = data?.access_token;
+
+							client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Login.AccessToken);
+							var whoAmiResponse = await client.GetFromJsonAsync<WhoAmIResponse>("http://localhost:8001/whoami");
+							if(whoAmiResponse != null)
+							{
+								Login.userID = whoAmiResponse.id_players.ToString();
+							}
+
 							// Aquí puedes almacenar el userID según tus necesidades
 							// Por ejemplo, podrías guardarlo en una variable estática o pasarlo a otro método
 							Main.NewText(bGamesMod.HeroText("LoginSuccessful"));
@@ -420,5 +443,24 @@ namespace bGamesMod.bGamesModServices
 				this.Position = new Vector2(Parent.Width / 2, Parent.Height / 2);
 			base.Update();
 		}
+	}
+
+	internal class LoginResponse
+	{
+		public string access_token { get; set; }
+		public string token_type { get; set; }
+	}
+
+	internal class WhoAmIResponse
+	{
+		public int id_players { get; set; }
+
+		public string name { get; set; }
+
+		public string email { get; set; }
+
+		public int age { get; set; }
+
+		public string role { get; set; }
 	}
 }

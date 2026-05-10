@@ -182,7 +182,7 @@ namespace bGamesMod.bGamesModServices
 			{
 				using (var client = new HttpClient())
 				{
-					var response = await client.GetStringAsync("http://localhost:5001/player_all_attributes/" + userID);
+					var response = await client.GetStringAsync("http://localhost:8012/player_all_attributes/" + userID);
 					var attributes = JsonConvert.DeserializeObject<List<PlayerAttribute>>(response);
 					if (attributes != null && attributes.Any())
 					{
@@ -212,7 +212,7 @@ namespace bGamesMod.bGamesModServices
 
 					var json = JsonConvert.SerializeObject(postData);
 					var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-					var response = await client.PostAsync("http://localhost:5001/spend_attribute/", content);
+					var response = await client.PostAsync("http://localhost:8012/spend_attribute/", content);
 					if (response.IsSuccessStatusCode)
 					{
 						LoadPlayerAttributes(userID);
