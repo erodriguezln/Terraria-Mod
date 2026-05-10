@@ -1,5 +1,4 @@
 ﻿using bGamesMod.Models;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,36 +11,31 @@ namespace bGamesMod.bGamesModServices
 	{
 		private const string BaseUrl = "http://localhost:8001";
 
+		// HttpClient se puede usar desde varios threads y conviene reutilizarlo
+		// para evitar crear conexiones nuevas en cada petición.
+		private static readonly HttpClient _client = new HttpClient();
+
 		public static async Task<LoginResponse> LoginAsync(string username, string password)
 		{
-			using (var client = new HttpClient())
-			{
-				var postData = new Dictionary<string, string> {
-					{ "username", username },
-					{ "password", password }
-				};
-				var content = new FormUrlEncodedContent(postData);
+			var postData = new Dictionary<string, string> {
+				{ "username", username },
+				{ "password", password }
+			};
 
-				var response = await client.PostAsync($"{BaseUrl}/login", content);
+			var response = await _client.PostAsync($"{BaseUrl}/login", new FormUrlEncodedContent(postData));
+			if (!response.IsSuccessStatusCode)
+				return null;
 
-				if (!response.IsSuccessStatusCode)
-				{
-					return null;
-				}
-
-				return await response.Content.ReadFromJsonAsync<LoginResponse>();
-			}
+			return await response.Content.ReadFromJsonAsync<LoginResponse>();
 		}
 
 		public static async Task<WhoAmIResponse> WhoAmIAsync(string accessToken)
 		{
-			using (var client = new HttpClient())
-			{
-				client.DefaultRequestHeaders.Authorization =
-					new AuthenticationHeaderValue("Bearer", accessToken);
+			using var request = new HttpRequestMessage(HttpMethod.Get, $"{BaseUrl}/whoami");
+			request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
-				return await client.GetFromJsonAsync<WhoAmIResponse>($"{BaseUrl}/whoami");
-			}
+			var response = await _client.SendAsync(request);
+			return await response.Content.ReadFromJsonAsync<WhoAmIResponse>();
 		}
 	}
 }

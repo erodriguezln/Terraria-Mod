@@ -32,11 +32,11 @@ namespace bGamesMod.bGamesModServices
 
 		public BuffServiceAfectivo()
 		{
-			this._hotbarIcon =
+			_hotbarIcon =
 				new UIImage(bGamesMod.instance.Assets.Request<Texture2D>("Images/bGames/afective",
 					AssetRequestMode.ImmediateLoad));
-			this.HotbarIcon.Tooltip = bGamesMod.HeroText("OpenBuffAfectivo");
-			this.HotbarIcon.onLeftClick += HotbarIcon_onLeftClick;
+			HotbarIcon.Tooltip = bGamesMod.HeroText("OpenBuffAfectivo");
+			HotbarIcon.onLeftClick += HotbarIcon_onLeftClick;
 
 			Login.OnLogout += HandleLogout;
 		}
@@ -72,7 +72,6 @@ namespace bGamesMod.bGamesModServices
 					_buffWindow = new BuffWindowAfectivo(Login.UserID);
 					this.AddUIView(_buffWindow);
 					_buffWindow.Visible = false;
-
 					_buffWindow.Y = 270;
 					_buffWindow.X = 130;
 				}
@@ -108,10 +107,10 @@ namespace bGamesMod.bGamesModServices
 		public BuffWindowAfectivo(string userID)
 		{
 			this.userID = userID;
-			this.CanMove = true;
+			CanMove = true;
+
 			UILabel lTitle = new UILabel(bGamesMod.HeroText("BuffsAfectivo"));
 			UILabel lSeconds = new UILabel("Puntos");
-
 			lblPoints = new UILabel("Loading...");
 			scrollView = new UIScrollView();
 			UIImage bClose = new UIImage(closeTexture);
@@ -133,8 +132,8 @@ namespace bGamesMod.bGamesModServices
 			scrollView.Width = 300;
 			scrollView.Height = 250;
 
-			this.Width = scrollView.X + scrollView.Width + Spacing;
-			this.Height = scrollView.Y + scrollView.Height + Spacing;
+			Width = scrollView.X + scrollView.Width + Spacing;
+			Height = scrollView.Y + scrollView.Height + Spacing;
 
 			lblPoints.X = Width - lblPoints.Width - Spacing;
 			bClose.X = Width - bClose.Width - Spacing;
@@ -177,31 +176,33 @@ namespace bGamesMod.bGamesModServices
 					continue;
 				}
 
-				UIRect bg = new UIRect();
-				bg.ForegroundColor = buffType % 2 == 0 ? Color.Transparent : Color.Blue * .1f;
-				bg.X = Spacing;
-				bg.Y = yPos;
-				bg.Width = scrollView.Width - 20 - Spacing * 2;
-				bg.Tag = buffType;
-				string buffDescription = Lang.GetBuffDescription(buffType);
-				bg.Tooltip = (buffDescription == null ? "" : buffDescription);
+				UIRect bg = new UIRect {
+					ForegroundColor = buffType % 2 == 0 ? Color.Transparent : Color.Blue * .1f,
+					X = Spacing,
+					Y = yPos,
+					Width = scrollView.Width - 20 - Spacing * 2,
+					Tag = buffType,
+					Tooltip = Lang.GetBuffDescription(buffType) ?? string.Empty,
+				};
 				bg.onLeftClick += bg_onLeftClick;
 
-				UIImage buffImage = new UIImage(TextureAssets.Buff[buffType]);
-				buffImage.X = Spacing;
-				buffImage.Y = SmallSpacing / 2;
-				buffImage.OverridesMouse = false;
+				UIImage buffImage = new UIImage(TextureAssets.Buff[buffType]) {
+					X = Spacing,
+					Y = SmallSpacing / 2,
+					OverridesMouse = false,
+				};
 
 				bg.Height = buffImage.Height + SmallSpacing;
 				yPos += bg.Height;
 
 				// Use the backend mechanic_name instead of Terraria's Lang string
-				UILabel label = new UILabel(m.mechanic_name ?? Lang.GetBuffName(buffType));
-				label.Scale = .4f;
-				label.Anchor = AnchorPosition.Left;
-				label.X = buffImage.X + buffImage.Width + Spacing;
-				label.Y = buffImage.Y + buffImage.Height / 2;
-				label.OverridesMouse = false;
+				UILabel label = new UILabel(m.mechanic_name ?? Lang.GetBuffName(buffType)) {
+					Scale = .4f,
+					Anchor = AnchorPosition.Left,
+					X = buffImage.X + buffImage.Width + Spacing,
+					Y = buffImage.Y + buffImage.Height / 2,
+					OverridesMouse = false,
+				};
 
 				bg.AddChild(buffImage);
 				bg.AddChild(label);
@@ -259,7 +260,7 @@ namespace bGamesMod.bGamesModServices
 
 		private async void SpendPoints(int buffType, int pointsToSpend)
 		{
-			// TODO ¿Como podria suceder este error si la unica forma de ver las recompensas es porque vienen del servidor?
+			// TODO: ¿Como podria suceder este error si la unica forma de ver las recompensas es porque vienen del servidor?
 			if (!_mechanicsMap.TryGetValue(buffType, out int mechanicVgId))
 			{
 				Main.NewText("Esta recompensa aún no está registrada en el servidor.");
@@ -270,7 +271,7 @@ namespace bGamesMod.bGamesModServices
 				MechanicId = mechanicVgId,
 				DimensionId = AfectivoDimensionId,
 				Amount = pointsToSpend,
-				Metadata = new RedeemMetadata { Note = "Buff canjeable - Afectivo" }
+				Metadata = new RedeemMetadata { Note = "Buff canjeable - Afectivo" },
 			};
 
 			try
@@ -293,19 +294,18 @@ namespace bGamesMod.bGamesModServices
 
 		private void bClose_onLeftClick(object sender, EventArgs e)
 		{
-			this.Visible = false;
+			Visible = false;
 		}
 
 		private void bg_onLeftClick(object sender, EventArgs e)
 		{
-			UIView view = (UIView)sender;
-			int buffType = (int)view.Tag;
-			int pointsToSpend = 5;
+			int buffType = (int)((UIView)sender).Tag;
+			const int cost = 5;
 
-			if (pointsToSpend <= puntos)
+			if (cost <= puntos)
 			{
 				Main.player[Main.myPlayer].AddBuff(buffType, 60 * 60); // 60 seconds
-				SpendPoints(buffType, pointsToSpend);
+				SpendPoints(buffType, cost);
 			}
 			else
 			{
