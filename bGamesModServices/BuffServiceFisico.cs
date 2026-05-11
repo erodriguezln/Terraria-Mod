@@ -1,12 +1,11 @@
-﻿using bGamesMod.UIKit;
+﻿using bGamesMod.Models;
+using bGamesMod.UIKit;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Newtonsoft.Json;
 using ReLogic.Content;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+using System.Text.Json;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -19,16 +18,11 @@ namespace bGamesMod.bGamesModServices
 	{
 		private BuffWindowFisico _buffWindow;
 
-		public static int[] SkipBuffs = new int[] {
-			BuffID.Pygmies, BuffID.LeafCrystal, BuffID.IceBarrier, BuffID.BabySlime, BuffID.Ravens, BuffID.BeetleEndurance1, BuffID.BeetleEndurance2, BuffID.BeetleEndurance3,
-			BuffID.BeetleMight1, BuffID.BeetleMight2, BuffID.BeetleMight3, BuffID.ImpMinion, BuffID.SpiderMinion, BuffID.TwinEyesMinion,
-			BuffID.MinecartLeft, BuffID.MinecartLeftMech, BuffID.MinecartLeftWood, BuffID.MinecartRight, BuffID.MinecartRightMech, BuffID.MinecartRightWood,
-			BuffID.SharknadoMinion, BuffID.UFOMinion, BuffID.DeadlySphere, BuffID.SolarShield1, BuffID.SolarShield2, BuffID.SolarShield3, BuffID.StardustDragonMinion,
-			BuffID.StardustGuardianMinion, BuffID.HornetMinion, BuffID.PirateMinion, BuffID.StardustMinion };
-
 		public BuffServiceFisico()
 		{
-			this._hotbarIcon = new UIImage(bGamesMod.instance.Assets.Request<Texture2D>("Images/bGames/phisical", AssetRequestMode.ImmediateLoad));
+			this._hotbarIcon =
+				new UIImage(bGamesMod.instance.Assets.Request<Texture2D>("Images/bGames/phisical",
+					AssetRequestMode.ImmediateLoad));
 			this.HotbarIcon.Tooltip = bGamesMod.HeroText("OpenBuffFisico");
 			this.HotbarIcon.onLeftClick += HotbarIcon_onLeftClick;
 
@@ -59,6 +53,7 @@ namespace bGamesMod.bGamesModServices
 				Main.NewText(bGamesMod.HeroText("BuffsLogin"));
 				return;
 			}
+
 			if (_buffWindow == null)
 			{
 				if (!Main.dedServ)
@@ -71,6 +66,7 @@ namespace bGamesMod.bGamesModServices
 					_buffWindow.X = 130;
 				}
 			}
+
 			_buffWindow.Visible = !_buffWindow.Visible;
 			if (_buffWindow.Visible)
 			{
@@ -84,16 +80,35 @@ namespace bGamesMod.bGamesModServices
 		private UILabel lblPoints;
 		private int puntos;
 		private string userID;
+		private UIScrollView scrollView;
+
+		// buffId es igual a id_modifiable_mechanic_videogame y puebla la ventana en cada apertura
+		private Dictionary<int, int> _mechanicsMap = new Dictionary<int, int>();
+
+		// point_dimension_id
+		private const int FisicoDimensionId = 2;
+
+		// id_attributes
+		private const int FisicoAttributeId = 2;
+
+		// "dimension" usada para filtrar las mecanicas que se muestran en la ventana.
+		private const string FisicoDimension = "fisico";
+
+		// Coste por canje en esta dimensión
+		private const int FisicoCost = 5;
+
+		// Duración del buff en segundos (ej. 60 * 60 = 3600s = 1 hora)
+		private const int FisicoBuffDurationSeconds = 60 * 60;
 
 		public BuffWindowFisico(string userID)
 		{
 			this.userID = userID;
-			this.CanMove = true;
+			CanMove = true;
+
 			UILabel lTitle = new UILabel(bGamesMod.HeroText("BuffsFisico"));
 			UILabel lSeconds = new UILabel("Puntos");
-
 			lblPoints = new UILabel("Loading...");
-			UIScrollView scrollView = new UIScrollView();
+			scrollView = new UIScrollView();
 			UIImage bClose = new UIImage(closeTexture);
 
 			lTitle.Scale = .6f;
@@ -113,56 +128,8 @@ namespace bGamesMod.bGamesModServices
 			scrollView.Width = 300;
 			scrollView.Height = 250;
 
-			float yPos = Spacing;
-			int[] physicalBuffs = new int[] {
-			BuffID.ObsidianSkin, BuffID.Regeneration, BuffID.Swiftness, BuffID.Gills, BuffID.Ironskin, BuffID.Featherfall, BuffID.Thorns,
-			BuffID.WaterWalking, BuffID.Gravitation, BuffID.RapidHealing, BuffID.IceBarrier, BuffID.Honey, BuffID.HeartLamp,
-			BuffID.Campfire, BuffID.BeetleEndurance1, BuffID.BeetleEndurance2, BuffID.BeetleEndurance3, BuffID.Warmth, BuffID.Endurance,
-			BuffID.Lifeforce, BuffID.Mining, BuffID.Heartreach, BuffID.Builder, BuffID.Titan, BuffID.Summoning, BuffID.Flipper,
-			BuffID.Archery, BuffID.AmmoBox, BuffID.Calm, BuffID.Wrath, BuffID.Rage, BuffID.Fishing, BuffID.Sonar, BuffID.Crate,
-			BuffID.WeaponImbueVenom, BuffID.WeaponImbueCursedFlames, BuffID.WeaponImbueFire, BuffID.WeaponImbueGold, BuffID.WeaponImbueIchor,
-			BuffID.WeaponImbueNanites, BuffID.WeaponImbueConfetti, BuffID.WeaponImbuePoison, BuffID.AmmoReservation, BuffID.Inferno,
-			BuffID.SugarRush
-		};
-
-			foreach (int buffType in physicalBuffs)
-			{
-				if (Main.debuff[buffType] && buffType != BuffID.Wet) continue;
-
-				UIRect bg = new UIRect();
-				bg.ForegroundColor = buffType % 2 == 0 ? Color.Transparent : Color.Blue * .1f;
-				bg.X = Spacing;
-				bg.Y = yPos;
-				bg.Width = scrollView.Width - 20 - Spacing * 2;
-				bg.Tag = buffType;
-				string buffDescription = Lang.GetBuffDescription(buffType);
-				bg.Tooltip = (buffDescription == null ? "" : buffDescription);
-				bg.onLeftClick += bg_onLeftClick;
-
-				UIImage buffImage = new UIImage(TextureAssets.Buff[buffType]);
-				buffImage.X = Spacing;
-				buffImage.Y = SmallSpacing / 2;
-				buffImage.OverridesMouse = false;
-
-				bg.Height = buffImage.Height + SmallSpacing;
-				yPos += bg.Height;
-
-				UILabel label = new UILabel(Lang.GetBuffName(buffType));
-				label.Scale = .4f;
-				label.Anchor = AnchorPosition.Left;
-				label.X = buffImage.X + buffImage.Width + Spacing;
-				label.Y = buffImage.Y + buffImage.Height / 2;
-				label.OverridesMouse = false;
-
-				bg.AddChild(buffImage);
-				bg.AddChild(label);
-				scrollView.AddChild(bg);
-			}
-
-			scrollView.ContentHeight = yPos;
-
-			this.Width = scrollView.X + scrollView.Width + Spacing;
-			this.Height = scrollView.Y + scrollView.Height + Spacing;
+			Width = scrollView.X + scrollView.Width + Spacing;
+			Height = scrollView.Y + scrollView.Height + Spacing;
 
 			lblPoints.X = Width - lblPoints.Width - Spacing;
 			bClose.X = Width - bClose.Width - Spacing;
@@ -179,51 +146,151 @@ namespace bGamesMod.bGamesModServices
 			AddChild(bClose);
 		}
 
+		// Puebla la ventana de mecanicas con las mecanicas traidas del backend remoto/cliente lsg
+		private void PopulateBuffList(List<MechanicDto> mechanics)
+		{
+			scrollView.ClearContent();
+			float yPos = Spacing;
+
+			foreach (MechanicDto m in mechanics)
+			{
+				if (!(m.options is JsonElement opts && opts.ValueKind == JsonValueKind.Object))
+				{
+					continue;
+				}
+
+				if (!opts.TryGetProperty("dimension", out JsonElement dimEl)
+				    || !string.Equals(dimEl.GetString(), FisicoDimension, StringComparison.OrdinalIgnoreCase))
+				{
+					continue;
+				}
+
+				if (!opts.TryGetProperty("buff_id", out JsonElement buffIdEl)
+				    || !buffIdEl.TryGetInt32(out int buffType))
+				{
+					continue;
+				}
+
+				// Validación defensiva: evitar indices inválidos en TextureAssets
+				if (buffType < 0 || buffType >= TextureAssets.Buff.Length)
+				{
+					// opcional: logear o ignorar
+					continue;
+				}
+
+				UIRect bg = new UIRect {
+					ForegroundColor = buffType % 2 == 0 ? Color.Transparent : Color.Blue * .1f,
+					X = Spacing,
+					Y = yPos,
+					Width = scrollView.Width - 20 - Spacing * 2,
+					Tag = buffType,
+					Tooltip = Lang.GetBuffDescription(buffType) ?? string.Empty,
+				};
+
+				// Suscribir el event handler bg_onLeftClick al event onLeftClick
+				// Esto hace que bg_onLeftClick se ejecute automáticamente cada vez que se clickea este elemento
+				bg.onLeftClick += bg_onLeftClick;
+
+				UIImage buffImage = new UIImage(TextureAssets.Buff[buffType]) {
+					X = Spacing,
+					Y = SmallSpacing / 2,
+					OverridesMouse = false,
+				};
+
+				bg.Height = buffImage.Height + SmallSpacing;
+				yPos += bg.Height;
+
+				// Use the backend mechanic_name instead of Terraria's Lang string
+				UILabel label = new UILabel(m.mechanic_name ?? Lang.GetBuffName(buffType)) {
+					Scale = .4f,
+					Anchor = AnchorPosition.Left,
+					X = buffImage.X + buffImage.Width + Spacing,
+					Y = buffImage.Y + buffImage.Height / 2,
+					OverridesMouse = false,
+				};
+
+				bg.AddChild(buffImage);
+				bg.AddChild(label);
+				scrollView.AddChild(bg);
+			}
+
+			scrollView.ContentHeight = yPos;
+		}
+
 		public async void LoadPlayerAttributes(string userID)
 		{
 			try
 			{
-				using (var client = new HttpClient())
+				int? points = await BuffApiService.GetAttributePointsAsync(userID, FisicoAttributeId);
+				if (points.HasValue)
 				{
-					var response = await client.GetStringAsync("http://localhost:8012/player_all_attributes/" + userID);
-					var attributes = JsonConvert.DeserializeObject<List<PlayerAttribute>>(response);
-					if (attributes != null && attributes.Any())
-					{
-						puntos = attributes[1].data;
-						lblPoints.Text = puntos.ToString();
-					}
+					puntos = points.Value;
+					lblPoints.Text = puntos.ToString();
+				}
+				else
+				{
+					Main.NewText($"No se encontró el atributo con ID {FisicoAttributeId}.");
 				}
 			}
 			catch (Exception ex)
 			{
 				Main.NewText($"Error loading attributes: {ex.Message}");
 			}
+
+			try
+			{
+				List<MechanicDto> mechanics = await BuffApiService.GetMechanicsAsync(BuffApiService.VideoGameId);
+
+				// Build the redeem map
+				_mechanicsMap.Clear();
+				foreach (MechanicDto m in mechanics)
+				{
+					if (m.options is JsonElement opts
+					    && opts.ValueKind == JsonValueKind.Object
+					    && opts.TryGetProperty("buff_id", out JsonElement buffIdEl)
+					    && buffIdEl.TryGetInt32(out int buffId))
+					{
+						_mechanicsMap[buffId] = m.id_modifiable_mechanic_videogame;
+					}
+				}
+
+				// Rebuild the scroll view with backend data
+				PopulateBuffList(mechanics);
+			}
+			catch (Exception ex)
+			{
+				Main.NewText($"Error loading mechanics: {ex.Message}");
+			}
 		}
 
 		private async void SpendPoints(int buffType, int pointsToSpend)
 		{
+			// Chequeo defensivo: evita usar un buff no sincronizado (no deberia suceder dado que poblamos el mapa, quizas resincronización).
+			if (!_mechanicsMap.TryGetValue(buffType, out int mechanicVgId))
+			{
+				Main.NewText("Esta recompensa aún no está registrada en el servidor.");
+				return;
+			}
+
+			var request = new RedeemRequest {
+				MechanicId = mechanicVgId,
+				DimensionId = FisicoDimensionId,
+				Amount = pointsToSpend,
+				Metadata = new RedeemMetadata { Note = "Buff canjeable - Físico" },
+			};
+
 			try
 			{
-				using (var client = new HttpClient())
+				bool success = await BuffApiService.RedeemAsync(Login.UserID, request);
+				if (success)
 				{
-					var postData = new {
-						id_player = userID,
-						id_videogame = 5,
-						id_attributes = 1,
-						new_data = pointsToSpend
-					};
-
-					var json = JsonConvert.SerializeObject(postData);
-					var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-					var response = await client.PostAsync("http://localhost:8012/spend_attribute/", content);
-					if (response.IsSuccessStatusCode)
-					{
-						LoadPlayerAttributes(userID);
-					}
-					else
-					{
-						Main.NewText($"Error spending points: {response.ReasonPhrase}");
-					}
+					// Solo se aplica el buff si el canje fue exitoso
+					Main.player[Main.myPlayer].AddBuff(buffType, FisicoBuffDurationSeconds);
+					LoadPlayerAttributes(userID);
+				}
+				else
+				{
+					Main.NewText("Error spending points.");
 				}
 			}
 			catch (Exception ex)
@@ -234,31 +301,22 @@ namespace bGamesMod.bGamesModServices
 
 		private void bClose_onLeftClick(object sender, EventArgs e)
 		{
-			this.Visible = false;
+			Visible = false;
 		}
 
 		private void bg_onLeftClick(object sender, EventArgs e)
 		{
-			UIView view = (UIView)sender;
-			int buffType = (int)view.Tag;
-			int pointsToSpend = 5; // You can modify this value as needed
+			// Accedes al objeto que fue clickeado y obtienes buffType desde su propiedad Tag
+			int buffType = (int)((UIView)sender).Tag;
 
-			if (pointsToSpend <= puntos)
+			if (FisicoCost <= puntos)
 			{
-				Main.player[Main.myPlayer].AddBuff(buffType, 60 * 60); // 60 seconds
-				SpendPoints(buffType, pointsToSpend);
+				SpendPoints(buffType, FisicoCost);
 			}
 			else
 			{
 				Main.NewText("Not enough points to spend.");
 			}
-		}
-
-		internal class PlayerAttribute
-		{
-			public int id_attributes { get; set; }
-			public string name { get; set; }
-			public int data { get; set; }
 		}
 	}
 }
