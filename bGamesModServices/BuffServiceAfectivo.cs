@@ -18,18 +18,6 @@ namespace bGamesMod.bGamesModServices
 	{
 		private BuffWindowAfectivo _buffWindow;
 
-		public static int[] SkipBuffs = new int[] {
-			BuffID.Pygmies, BuffID.LeafCrystal, BuffID.IceBarrier, BuffID.BabySlime, BuffID.Ravens,
-			BuffID.BeetleEndurance1, BuffID.BeetleEndurance2, BuffID.BeetleEndurance3,
-			BuffID.BeetleMight1, BuffID.BeetleMight2, BuffID.BeetleMight3, BuffID.ImpMinion, BuffID.SpiderMinion,
-			BuffID.TwinEyesMinion,
-			BuffID.MinecartLeft, BuffID.MinecartLeftMech, BuffID.MinecartLeftWood, BuffID.MinecartRight,
-			BuffID.MinecartRightMech, BuffID.MinecartRightWood,
-			BuffID.SharknadoMinion, BuffID.UFOMinion, BuffID.DeadlySphere, BuffID.SolarShield1, BuffID.SolarShield2,
-			BuffID.SolarShield3, BuffID.StardustDragonMinion,
-			BuffID.StardustGuardianMinion, BuffID.HornetMinion, BuffID.PirateMinion, BuffID.StardustMinion
-		};
-
 		public BuffServiceAfectivo()
 		{
 			_hotbarIcon =
@@ -104,6 +92,12 @@ namespace bGamesMod.bGamesModServices
 		// "dimension" usada para filtrar las mecanicas que se muestran en la ventana.
 		private const string AfectivoDimension = "afectivo";
 
+		// Coste por canje en esta dimensión
+		private const int AfectivoCost = 5;
+
+		// Duración del buff en segundos (ej. 60 * 60 = 3600s = 1 hora)
+		private const int AfectivoBuffDurationSeconds = 60 * 60;
+
 		public BuffWindowAfectivo(string userID)
 		{
 			this.userID = userID;
@@ -169,11 +163,18 @@ namespace bGamesMod.bGamesModServices
 					continue;
 				}
 
-				if (!opts.TryGetProperty("buff_id", out JsonElement buffIdEl)
-				    || !buffIdEl.TryGetInt32(out int buffType))
-				{
-					continue;
-				}
+							if (!opts.TryGetProperty("buff_id", out JsonElement buffIdEl)
+							    || !buffIdEl.TryGetInt32(out int buffType))
+							{
+								continue;
+							}
+
+							// Validación defensiva: evitar indices inválidos en TextureAssets
+							if (buffType < 0 || buffType >= TextureAssets.Buff.Length)
+							{
+								// opcional: logear o ignorar
+								continue;
+							}
 
 				UIRect bg = new UIRect {
 					ForegroundColor = buffType % 2 == 0 ? Color.Transparent : Color.Blue * .1f,
@@ -282,7 +283,7 @@ namespace bGamesMod.bGamesModServices
 				if (success)
 				{
 					// Solo se aplica el buff si el canje fue exitoso
-					Main.player[Main.myPlayer].AddBuff(buffType, 60 * 60); // 60 seconds
+					Main.player[Main.myPlayer].AddBuff(buffType, AfectivoBuffDurationSeconds);
 					LoadPlayerAttributes(userID);
 				}
 				else
@@ -305,11 +306,10 @@ namespace bGamesMod.bGamesModServices
 		{
 			// Accedes al objeto que fue clickeado y obtienes buffType desde su propiedad Tag
 			int buffType = (int)((UIView)sender).Tag;
-			const int cost = 5;
 
-			if (cost <= puntos)
+			if (AfectivoCost <= puntos)
 			{
-				SpendPoints(buffType, cost);
+				SpendPoints(buffType, AfectivoCost);
 			}
 			else
 			{
