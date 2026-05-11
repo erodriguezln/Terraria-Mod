@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 
 namespace bGamesMod.bGamesModServices
@@ -163,8 +164,7 @@ namespace bGamesMod.bGamesModServices
 			RewardPayload? payload;
 			try
 			{
-				payload = JsonSerializer.Deserialize<RewardPayload>(
-					body, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+				payload = JsonSerializer.Deserialize<RewardPayload>(body);
 			}
 			catch
 			{
@@ -179,17 +179,17 @@ namespace bGamesMod.bGamesModServices
 			}
 
 			// Sanity check basico, la validación de dominio más específica queda en el callback del mod.
-			if (payload.buff_id <= 0)
+			if (payload.BuffId <= 0)
 			{
 				SendJson(resp, 400, "{\"error\":\"'buff_id' must be a positive integer\"}");
 				return;
 			}
 
 			// Señala al main thread, si llega otra request antes de DrainPending(), este valor se sobreescribe.
-			_pendingValue = payload.buff_id;
-			Log($"[RewardHttpServer] Reward queued -> buff_id={payload.buff_id}");
+			_pendingValue = payload.BuffId;
+			Log($"[RewardHttpServer] Reward queued -> buff_id={payload.BuffId}");
 
-			SendJson(resp, 200, $"{{\"ok\":true,\"value\":{payload.buff_id}}}");
+			SendJson(resp, 200, $"{{\"ok\":true,\"value\":{payload.BuffId}}}");
 		}
 
 
@@ -209,7 +209,7 @@ namespace bGamesMod.bGamesModServices
 		// DTO para deserializar el payload del POST /reward.
 		private sealed class RewardPayload
 		{
-			public int buff_id { get; set; }
+			[JsonPropertyName("buff_id")] public int BuffId { get; set; }
 		}
 	}
 }

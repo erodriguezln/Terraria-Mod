@@ -36,8 +36,8 @@ namespace bGamesMod.bGamesModServices
 					return null;
 				}
 
-				var attr = attributes.FirstOrDefault(a => a.id_attributes == attributeId);
-				return attr?.data;
+				var attr = attributes.FirstOrDefault(a => a.IdAttributes == attributeId);
+				return attr?.BalanceLedger;
 			}
 		}
 

@@ -5,25 +5,28 @@ namespace bGamesMod.Models
 {
 	internal class PlayerAttribute
 	{
-		[JsonPropertyName("attribute_name")] public string name { get; set; }
+		[JsonPropertyName("attribute_name")] public string AttributeName { get; set; }
 
-		[JsonPropertyName("balance_ledger")] public int data { get; set; }
+		[JsonPropertyName("balance_ledger")] public int BalanceLedger { get; set; }
 
-		public int id_players { get; set; }
-		public string player_name { get; set; }
-		public string player_email { get; set; }
-		public int id_attributes { get; set; }
-		public int snapshot_points { get; set; }
-		public int diff_ledger_minus_snapshot { get; set; }
+		[JsonPropertyName(("id_players"))] public int IdPlayers { get; set; }
+
+		[JsonPropertyName("player_name")] public string PlayerName { get; set; }
+
+		[JsonPropertyName("player_email")] public string PlayerEmail { get; set; }
+
+		[JsonPropertyName("id_attributes")] public int IdAttributes { get; set; }
+
+		[JsonPropertyName("snapshot_points")] public int SnapshotPoints { get; set; }
+
+		[JsonPropertyName("diff_ledger_minus_snapshot")] public int DiffLedgerMinusSnapshot { get; set; }
 	}
 
 	internal class RedeemRequest
 	{
-		[JsonPropertyName("modifiable_mechanic_videogame_id")]
-		public int MechanicId { get; set; }
+		[JsonPropertyName("modifiable_mechanic_videogame_id")] public int MechanicId { get; set; }
 
-		[JsonPropertyName("point_dimension_id")]
-		public int DimensionId { get; set; }
+		[JsonPropertyName("point_dimension_id")] public int DimensionId { get; set; }
 
 		[JsonPropertyName("amount")] public int Amount { get; set; }
 
@@ -37,12 +40,18 @@ namespace bGamesMod.Models
 
 	internal class MechanicDto
 	{
-		public int id_modifiable_mechanic_videogame { get; set; }
-		public int id_videogame { get; set; }
-		public int id_modifiable_mechanic { get; set; }
-		public string mechanic_name { get; set; }
-		public string mechanic_description { get; set; }
-		public string mechanic_type { get; set; }
-		public JsonElement? options { get; set; }
+		[JsonPropertyName("id_modifiable_mechanic_videogame")] public int IdModifiableMechanicVideogame { get; set; }
+
+		[JsonPropertyName("id_videogame")] public int IdVideogame { get; set; }
+
+		[JsonPropertyName("id_modifiable_mechanic")] public int IdModifiableMechanic { get; set; }
+
+		[JsonPropertyName("mechanic_name")] public string MechanicName { get; set; }
+
+		[JsonPropertyName("mechanic_description")] public string MechanicDescription { get; set; }
+
+		[JsonPropertyName("mechanic_type")] public string MechanicType { get; set; }
+
+		[JsonPropertyName("options")] public JsonElement? Options { get; set; }
 	}
 }

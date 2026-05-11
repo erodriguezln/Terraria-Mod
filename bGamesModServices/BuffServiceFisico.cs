@@ -154,7 +154,7 @@ namespace bGamesMod.bGamesModServices
 
 			foreach (MechanicDto m in mechanics)
 			{
-				if (!(m.options is JsonElement opts && opts.ValueKind == JsonValueKind.Object))
+				if (!(m.Options is JsonElement opts && opts.ValueKind == JsonValueKind.Object))
 				{
 					continue;
 				}
@@ -201,7 +201,7 @@ namespace bGamesMod.bGamesModServices
 				yPos += bg.Height;
 
 				// Use the backend mechanic_name instead of Terraria's Lang string
-				UILabel label = new UILabel(m.mechanic_name ?? Lang.GetBuffName(buffType)) {
+				UILabel label = new UILabel(m.MechanicName ?? Lang.GetBuffName(buffType)) {
 					Scale = .4f,
 					Anchor = AnchorPosition.Left,
 					X = buffImage.X + buffImage.Width + Spacing,
@@ -245,12 +245,12 @@ namespace bGamesMod.bGamesModServices
 				_mechanicsMap.Clear();
 				foreach (MechanicDto m in mechanics)
 				{
-					if (m.options is JsonElement opts
+					if (m.Options is JsonElement opts
 					    && opts.ValueKind == JsonValueKind.Object
 					    && opts.TryGetProperty("buff_id", out JsonElement buffIdEl)
 					    && buffIdEl.TryGetInt32(out int buffId))
 					{
-						_mechanicsMap[buffId] = m.id_modifiable_mechanic_videogame;
+						_mechanicsMap[buffId] = m.IdModifiableMechanicVideogame;
 					}
 				}
 
