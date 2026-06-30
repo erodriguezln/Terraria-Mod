@@ -12,7 +12,7 @@ namespace bGamesMod.bGamesModServices
 {
 	/// <summary>
 	/// Servidor HTTP liviano que corre en segundo plano.
-	/// Expone: POST /reward con un payload JSON que incluye <c>buff_id</c>.
+	/// Expone: POST /reward con un payload JSON que incluye <c>reward_id</c>.
 	/// Es agnóstico a la lógica de dominio: solo recibe, valida y deja el valor pendiente
 	/// para que el callback registrado en <see cref="Start"/> lo procese en el main thread.
 	/// </summary>
@@ -140,8 +140,15 @@ namespace bGamesMod.bGamesModServices
 				                && req.Url.AbsolutePath.TrimEnd('/')
 					                .Equals("/reward", StringComparison.OrdinalIgnoreCase);
 
+				bool isHealth = req.HttpMethod.Equals("GET", StringComparison.OrdinalIgnoreCase)
+				                && req.Url is not null
+				                && req.Url.AbsolutePath.TrimEnd('/')
+					                .Equals("/health", StringComparison.OrdinalIgnoreCase);
+
 				if (isReward)
 					HandleReward(req, resp);
+				else if (isHealth)
+					SendJson(resp, 200, "{\"status\":\"ok\"}");
 				else
 					SendJson(resp, 404, "{\"error\":\"Not Found\"}");
 			}
@@ -179,17 +186,17 @@ namespace bGamesMod.bGamesModServices
 			}
 
 			// Sanity check basico, la validación de dominio más específica queda en el callback del mod.
-			if (payload.BuffId <= 0)
+			if (payload.RewardId <= 0)
 			{
-				SendJson(resp, 400, "{\"error\":\"'buff_id' must be a positive integer\"}");
+				SendJson(resp, 400, "{\"error\":\"'reward_id' must be a positive integer\"}");
 				return;
 			}
 
 			// Señala al main thread, si llega otra request antes de DrainPending(), este valor se sobreescribe.
-			_pendingValue = payload.BuffId;
-			Log($"[RewardHttpServer] Reward queued -> buff_id={payload.BuffId}");
+			_pendingValue = payload.RewardId;
+			Log($"[RewardHttpServer] Reward queued -> reward_id={payload.RewardId}");
 
-			SendJson(resp, 200, $"{{\"ok\":true,\"value\":{payload.BuffId}}}");
+			SendJson(resp, 200, $"{{\"ok\":true,\"reward_id\":{payload.RewardId}}}");
 		}
 
 
@@ -209,7 +216,7 @@ namespace bGamesMod.bGamesModServices
 		// DTO para deserializar el payload del POST /reward.
 		private sealed class RewardPayload
 		{
-			[JsonPropertyName("buff_id")] public int BuffId { get; set; }
+			[JsonPropertyName("reward_id")] public int RewardId { get; set; }
 		}
 	}
 }
