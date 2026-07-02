@@ -97,8 +97,6 @@ namespace bGamesMod
 			UIKit.UIDropdown.capDown = null;
 			UIKit.UICheckbox.checkboxTexture = null;
 			UIKit.UICheckbox.checkmarkTexture = null;
-			bGamesModServices.Login._loginTexture = null;
-			bGamesModServices.Login._logoutTexture = null;
 			try
 			{
 				if (ServiceController != null)
@@ -177,7 +175,6 @@ namespace bGamesMod
 				UIKit.UIColorPicker colorPicker = new UIKit.UIColorPicker();
 				colorPicker.X = 200;
 				UIKit.MasterView.menuScreen.AddChild(colorPicker);
-				LoadAddServices();
 			}
 		}
 
@@ -187,19 +184,6 @@ namespace bGamesMod
 			{
 				callButtons.Add(new(permissionName, texture, buttonClickedAction,groupUpdated, tooltip));
 			}
-		}
-
-		// TODO, is this ok to do on load rather than on enter?
-		public static void LoadAddServices()
-		{
-
-			ServiceController.AddService(new BuffServiceFisico());
-			ServiceController.AddService(new BuffServiceSocial());
-			ServiceController.AddService(new BuffServiceCognitivo());
-			ServiceController.AddService(new BuffServiceAfectivo());
-
-			ServiceController.AddService(new Login());
-			ServiceHotbar.Visible = true;
 		}
 
 		public static void Update(/*GameTime gameTime*/)
@@ -249,7 +233,6 @@ namespace bGamesMod
 		public static void GameLeft()
 		{
 			ModUtils.DebugText("Game left");
-			Login.LoggedIn = false;
 		}
 
 		public static void Draw(SpriteBatch spriteBatch)
