@@ -1,0 +1,1214 @@
+{
+  "mechanics": [
+    {
+      "name": "Araña Buff",
+      "description": "La araña luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 133,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Avispón bebé Buff",
+      "description": "Piensa que eres su madre",
+      "type": "buff",
+      "options": {
+        "reward_id": 51,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Avispón Buff",
+      "description": "El avispón luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 125,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Cabeza de esqueletrón bebé Buff",
+      "description": "No preguntes…",
+      "type": "buff",
+      "options": {
+        "reward_id": 50,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Cachorrito Buff",
+      "description": "Te está siguiendo un cachorrito",
+      "type": "buff",
+      "options": {
+        "reward_id": 91,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Cachorro de tiburón Buff",
+      "description": "Doo, doo, doo, doo, doo, doo",
+      "type": "buff",
+      "options": {
+        "reward_id": 219,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Comealmas bebé Buff",
+      "description": "Te está siguiendo un bebé comealmas",
+      "type": "buff",
+      "options": {
+        "reward_id": 45,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Conejo mascota Buff",
+      "description": "Creo que quiere tu zanahoria",
+      "type": "buff",
+      "options": {
+        "reward_id": 40,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Célula de polvo estelar Buff",
+      "description": "La célula de polvo estelar luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 182,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Diablillo Buff",
+      "description": "El diablillo luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 126,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Dinosaurio bebé Buff",
+      "description": "Te está siguiendo un bebé dinosaurio",
+      "type": "buff",
+      "options": {
+        "reward_id": 61,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Dragón de polvo estelar Buff",
+      "description": "El dragón de polvo estelar te protegerá",
+      "type": "buff",
+      "options": {
+        "reward_id": 188,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Esfera letal Buff",
+      "description": "La esfera letal luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 161,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Espirillama Buff",
+      "description": "Te está siguiendo un espirillama",
+      "type": "buff",
+      "options": {
+        "reward_id": 201,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Espíritu tiki Buff",
+      "description": "Un espíritu amistoso te está siguiendo",
+      "type": "buff",
+      "options": {
+        "reward_id": 52,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Estee Buff",
+      "description": "Te está siguiendo un Estee",
+      "type": "buff",
+      "options": {
+        "reward_id": 217,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Finch bebé Buff",
+      "description": "El finch bebé luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 216,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Gatocóptero Buff",
+      "description": "Te está siguiendo un gatocóptero",
+      "type": "buff",
+      "options": {
+        "reward_id": 200,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Gemelos Buff",
+      "description": "Los gemelos lucharán por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 134,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Grinch bebé Buff",
+      "description": "Te está siguiendo un pequeño Grinch",
+      "type": "buff",
+      "options": {
+        "reward_id": 92,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Guardián de polvo estelar Buff",
+      "description": "El guardián de polvo estelar te protegerá",
+      "type": "buff",
+      "options": {
+        "reward_id": 187,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Hada Buff I",
+      "description": "Un hada te acompaña",
+      "type": "buff",
+      "options": {
+        "reward_id": 27,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Hada Buff II",
+      "description": "Un hada te acompaña",
+      "type": "buff",
+      "options": {
+        "reward_id": 101,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Hada Buff III",
+      "description": "Un hada te acompaña",
+      "type": "buff",
+      "options": {
+        "reward_id": 102,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Hordragón Buff",
+      "description": "Te está siguiendo un hordragón",
+      "type": "buff",
+      "options": {
+        "reward_id": 202,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Lagarto mascota Buff",
+      "description": "Se pasa la vida arrastrado",
+      "type": "buff",
+      "options": {
+        "reward_id": 53,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Loro mascota Buff",
+      "description": "El lorito quiere la galletita",
+      "type": "buff",
+      "options": {
+        "reward_id": 54,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Murciélago sanguinario Buff",
+      "description": "El murciélago sanguinario luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 213,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Muñeco de nieve bebé Buff",
+      "description": "Te está siguiendo un muñeco de nieve bebé",
+      "type": "buff",
+      "options": {
+        "reward_id": 66,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Ojo saltarín Buff",
+      "description": "Te está siguiendo un ojo saltarín",
+      "type": "buff",
+      "options": {
+        "reward_id": 65,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "OVNI Buff",
+      "description": "El OVNI luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 140,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Pequeño minotauro Buff",
+      "description": "¿Cómo se derrota a un pequeño minotauro?",
+      "type": "buff",
+      "options": {
+        "reward_id": 136,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Pez de zafiro Buff",
+      "description": "Le gusta nadar a tu alrededor",
+      "type": "buff",
+      "options": {
+        "reward_id": 127,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Pigmeos Buff",
+      "description": "Los pigmeos lucharán por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 49,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Pingüino bebé Buff",
+      "description": "Creo que quiere una zanahoria",
+      "type": "buff",
+      "options": {
+        "reward_id": 41,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Pirata Buff",
+      "description": "El pirata luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 135,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Planeador de azúcar Buff",
+      "description": "Te está siguiendo un planeador de azúcar",
+      "type": "buff",
+      "options": {
+        "reward_id": 218,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Rana vampiro Buff",
+      "description": "La rana vampiro luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 214,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Retoño mascota Buff",
+      "description": "Te está siguiendo un pequeño retoño",
+      "type": "buff",
+      "options": {
+        "reward_id": 56,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Slime bebé Buff",
+      "description": "El slime bebé luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 64,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Tornado de tiburones Buff",
+      "description": "El tornado de tiburones luchará por ti",
+      "type": "buff",
+      "options": {
+        "reward_id": 139,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Tortuga mascota Buff",
+      "description": "¡Feliz hora de las tortugas!",
+      "type": "buff",
+      "options": {
+        "reward_id": 42,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Trufa bebé Buff",
+      "description": "¿A que es adoraaable?",
+      "type": "buff",
+      "options": {
+        "reward_id": 55,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Voluta Buff",
+      "description": "Te está siguiendo una voluta",
+      "type": "buff",
+      "options": {
+        "reward_id": 57,
+        "cost_amount": 5,
+        "attribute_id": 1
+      }
+    },
+    {
+      "name": "Agallas Buff",
+      "description": "Permite respirar agua en vez de aire",
+      "type": "buff",
+      "options": {
+        "reward_id": 4,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Alcanzacorazón Buff",
+      "description": "Aumenta el alcance de recolección de corazones",
+      "type": "buff",
+      "options": {
+        "reward_id": 105,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Aletas Buff",
+      "description": "Te mueves en el agua de forma normal",
+      "type": "buff",
+      "options": {
+        "reward_id": 109,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Arma imbuida: Confeti Buff",
+      "description": "Los ataques cuerpo a cuerpo provocan la aparición de confeti",
+      "type": "buff",
+      "options": {
+        "reward_id": 78,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Arma imbuida: Icor Buff",
+      "description": "Los ataques cuerpo a cuerpo reducen la defensa de los enemigos",
+      "type": "buff",
+      "options": {
+        "reward_id": 76,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Arma imbuida: Llamas Buff",
+      "description": "Los ataques cuerpo a cuerpo prenden fuego a los enemigos",
+      "type": "buff",
+      "options": {
+        "reward_id": 74,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Arma imbuida: Llamas malditas Buff",
+      "description": "Los ataques cuerpo a cuerpo infligen llamas malditas a los enemigos",
+      "type": "buff",
+      "options": {
+        "reward_id": 73,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Arma imbuida: Nanitos Buff",
+      "description": "Los ataques cuerpo a cuerpo confunden a los enemigos",
+      "type": "buff",
+      "options": {
+        "reward_id": 77,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Arma imbuida: Oro Buff",
+      "description": "Los ataques cuerpo a cuerpo hacen que los enemigos dejen más oro",
+      "type": "buff",
+      "options": {
+        "reward_id": 75,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Arma imbuida: Veneno Buff",
+      "description": "Los ataques cuerpo a cuerpo envenenan a los enemigos",
+      "type": "buff",
+      "options": {
+        "reward_id": 79,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Arma imbuida: Ácido ponzoñoso Buff",
+      "description": "Los ataques cuerpo a cuerpo infligen Ácido ponzoñoso a los objetivos",
+      "type": "buff",
+      "options": {
+        "reward_id": 71,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Barrera de hielo Buff",
+      "description": "El daño sufrido se reduce en un 25%",
+      "type": "buff",
+      "options": {
+        "reward_id": 62,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Caja Buff",
+      "description": "Más posibilidades de pescar una caja",
+      "type": "economy",
+      "options": {
+        "reward_id": 123,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Caja de munición Buff",
+      "description": "Probabilidad del 20 % de ahorrar munición",
+      "type": "buff",
+      "options": {
+        "reward_id": 93,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Calmado Buff",
+      "description": "Se reduce la velocidad de regeneración del enemigo",
+      "type": "buff",
+      "options": {
+        "reward_id": 106,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Calor Buff",
+      "description": "Se reduce el daño de las fuentes de frío",
+      "type": "buff",
+      "options": {
+        "reward_id": 124,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Caída de pluma Buff",
+      "description": "Pulsa ARRIBA o ABAJO para controlar la velocidad de descenso",
+      "type": "buff",
+      "options": {
+        "reward_id": 8,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Constructor Buff",
+      "description": "Aumenta el alcance y la velocidad de colocación",
+      "type": "economy",
+      "options": {
+        "reward_id": 107,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Curación rápida Buff",
+      "description": "La regeneración de vida ha aumentado mucho",
+      "type": "health",
+      "options": {
+        "reward_id": 58,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Espinas Buff",
+      "description": "Los atacantes también sufren daños",
+      "type": "buff",
+      "options": {
+        "reward_id": 14,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Flotación Buff",
+      "description": "Pulsa ABAJO para sumergirte",
+      "type": "buff",
+      "options": {
+        "reward_id": 15,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Fuego agradable Buff",
+      "description": "La regeneración de vida ha aumentado un poco",
+      "type": "health",
+      "options": {
+        "reward_id": 87,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Fuerza vital Buff",
+      "description": "Aumenta un 20% la vida máxima",
+      "type": "health",
+      "options": {
+        "reward_id": 113,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Furia Buff",
+      "description": "10% de probabilidad de impacto crítico",
+      "type": "buff",
+      "options": {
+        "reward_id": 115,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Gravedad Buff",
+      "description": "Pulsa ARRIBA para invertir la gravedad",
+      "type": "buff",
+      "options": {
+        "reward_id": 18,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Infierno Buff",
+      "description": "Se prende fuego a los enemigos cercanos",
+      "type": "buff",
+      "options": {
+        "reward_id": 116,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Invocando Buff",
+      "description": "Aumenta el máximo de súbditos que puedes tener",
+      "type": "buff",
+      "options": {
+        "reward_id": 110,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Ira Buff",
+      "description": "Aumenta un 10% el daño",
+      "type": "buff",
+      "options": {
+        "reward_id": 117,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Lámpara del corazón Buff",
+      "description": "Aumenta la regeneración de vida",
+      "type": "health",
+      "options": {
+        "reward_id": 89,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Miel Buff",
+      "description": "Ha aumentado la regeneración de vida",
+      "type": "health",
+      "options": {
+        "reward_id": 48,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Minería Buff",
+      "description": "Aumenta en un 25% la velocidad de excavación",
+      "type": "economy",
+      "options": {
+        "reward_id": 104,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Pescando Buff",
+      "description": "Aumenta la capacidad de pesca",
+      "type": "economy",
+      "options": {
+        "reward_id": 121,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Piel de hierro Buff",
+      "description": "Aumenta la defensa en 8",
+      "type": "buff",
+      "options": {
+        "reward_id": 5,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Piel de obsidiana Buff",
+      "description": "Inmune a la lava",
+      "type": "buff",
+      "options": {
+        "reward_id": 1,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Rapidez Buff",
+      "description": "Aumenta en un 25% la velocidad de movimiento",
+      "type": "speed",
+      "options": {
+        "reward_id": 3,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Regeneración Buff",
+      "description": "Regenera la vida",
+      "type": "health",
+      "options": {
+        "reward_id": 2,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Reserva de munición Buff",
+      "description": "Probabilidad del 20 % de ahorrar munición",
+      "type": "buff",
+      "options": {
+        "reward_id": 112,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Resistencia Buff",
+      "description": "Se reduce el daño un 10%",
+      "type": "buff",
+      "options": {
+        "reward_id": 114,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Resistencia de escarabajo Buff I",
+      "description": "El daño sufrido se reduce en un 15%",
+      "type": "buff",
+      "options": {
+        "reward_id": 95,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Resistencia de escarabajo Buff II",
+      "description": "El daño sufrido se reduce en un 30%",
+      "type": "buff",
+      "options": {
+        "reward_id": 96,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Resistencia de escarabajo Buff III",
+      "description": "El daño sufrido se reduce en un 45%",
+      "type": "buff",
+      "options": {
+        "reward_id": 97,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Sonar Buff",
+      "description": "Puedes ver lo que ha mordido el anzuelo",
+      "type": "economy",
+      "options": {
+        "reward_id": 122,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Subidón de azúcar Buff",
+      "description": "Aumentan un 20% las velocidades de movimiento y minería",
+      "type": "speed",
+      "options": {
+        "reward_id": 192,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Tiro con arco Buff",
+      "description": "Aumento del 10% del daño con arco y aumento del 20% de la velocidad de las flechas",
+      "type": "buff",
+      "options": {
+        "reward_id": 16,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Titán Buff",
+      "description": "Aumenta el retroceso",
+      "type": "buff",
+      "options": {
+        "reward_id": 108,
+        "cost_amount": 5,
+        "attribute_id": 2
+      }
+    },
+    {
+      "name": "Bien alimentado Buff",
+      "description": "Pequeñas mejoras a todas las características",
+      "type": "health",
+      "options": {
+        "reward_id": 26,
+        "cost_amount": 5,
+        "attribute_id": 3
+      }
+    },
+    {
+      "name": "Completamente satisfecho Buff",
+      "description": "Mejoras medias a todas las características",
+      "type": "health",
+      "options": {
+        "reward_id": 206,
+        "cost_amount": 5,
+        "attribute_id": 3
+      }
+    },
+    {
+      "name": "Enamorado Buff",
+      "description": "¡Estás enamorado!",
+      "type": "buff",
+      "options": {
+        "reward_id": 119,
+        "cost_amount": 5,
+        "attribute_id": 3
+      }
+    },
+    {
+      "name": "Estrella embotellada Buff",
+      "description": "Aumenta la regeneración de maná",
+      "type": "buff",
+      "options": {
+        "reward_id": 158,
+        "cost_amount": 5,
+        "attribute_id": 3
+      }
+    },
+    {
+      "name": "Lleno de exquisiteces Buff",
+      "description": "Grandes mejoras a todas las características",
+      "type": "health",
+      "options": {
+        "reward_id": 207,
+        "cost_amount": 5,
+        "attribute_id": 3
+      }
+    },
+    {
+      "name": "Vela de paz Buff",
+      "description": "Se reduce el ritmo de aparición de los monstruos",
+      "type": "buff",
+      "options": {
+        "reward_id": 157,
+        "cost_amount": 5,
+        "attribute_id": 3
+      }
+    },
+    {
+      "name": "¡Feliz! Buff",
+      "description": "Aumenta la velocidad de movimiento y se reduce la generación de monstruos",
+      "type": "buff",
+      "options": {
+        "reward_id": 146,
+        "cost_amount": 5,
+        "attribute_id": 3
+      }
+    },
+    {
+      "name": "Absorción de vida Buff",
+      "description": "Aumenta la regeneración de vida",
+      "type": "buff",
+      "options": {
+        "reward_id": 151,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Afilado Buff",
+      "description": "Las armas cuerpo a cuerpo tienen penetración de armadura",
+      "type": "buff",
+      "options": {
+        "reward_id": 159,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Afortunado Buff",
+      "description": "Te sientes con mucha suerte",
+      "type": "buff",
+      "options": {
+        "reward_id": 257,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Bendición de la dríada Buff",
+      "description": "El poder de la naturaleza te protege",
+      "type": "buff",
+      "options": {
+        "reward_id": 165,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Brillo Buff",
+      "description": "Emite luz",
+      "type": "buff",
+      "options": {
+        "reward_id": 11,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Cazador Buff",
+      "description": "Muestra la ubicación de los enemigos",
+      "type": "buff",
+      "options": {
+        "reward_id": 17,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Clarividencia Buff",
+      "description": "Aumenta los poderes mágicos",
+      "type": "buff",
+      "options": {
+        "reward_id": 29,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Embrujado Buff",
+      "description": "Aumenta el máximo de súbditos que puedes tener",
+      "type": "buff",
+      "options": {
+        "reward_id": 150,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Espeleólogo Buff",
+      "description": "Muestra la ubicación de tesoros y minerales",
+      "type": "economy",
+      "options": {
+        "reward_id": 9,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Invisibilidad Buff",
+      "description": "Proporciona invisibilidad",
+      "type": "buff",
+      "options": {
+        "reward_id": 10,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Linterna mágica Buff",
+      "description": "Una linterna encantada te ilumina el camino",
+      "type": "buff",
+      "options": {
+        "reward_id": 152,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Nebulosa dañina Buff I",
+      "description": "Aumenta un 15% el daño",
+      "type": "buff",
+      "options": {
+        "reward_id": 179,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Nebulosa dañina Buff II",
+      "description": "Aumenta un 30% el daño",
+      "type": "buff",
+      "options": {
+        "reward_id": 180,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Nebulosa dañina Buff III",
+      "description": "Aumenta un 45% el daño",
+      "type": "buff",
+      "options": {
+        "reward_id": 181,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Nebulosa de maná Buff I",
+      "description": "Aumenta la regeneración de maná",
+      "type": "buff",
+      "options": {
+        "reward_id": 176,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Nebulosa de maná Buff II",
+      "description": "Aumenta la regeneración de maná",
+      "type": "buff",
+      "options": {
+        "reward_id": 177,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Nebulosa de maná Buff III",
+      "description": "Aumenta la regeneración de maná",
+      "type": "buff",
+      "options": {
+        "reward_id": 178,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Nebulosa vital Buff I",
+      "description": "Aumenta la regeneración de vida",
+      "type": "buff",
+      "options": {
+        "reward_id": 173,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Nebulosa vital Buff II",
+      "description": "Aumenta la regeneración de vida",
+      "type": "buff",
+      "options": {
+        "reward_id": 174,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Nebulosa vital Buff III",
+      "description": "Aumenta la regeneración de vida",
+      "type": "buff",
+      "options": {
+        "reward_id": 175,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Noctámbulo Buff",
+      "description": "Mejora la visión nocturna",
+      "type": "buff",
+      "options": {
+        "reward_id": 12,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Orbe sombrío Buff",
+      "description": "Orbe mágico que proporciona luz",
+      "type": "buff",
+      "options": {
+        "reward_id": 19,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Poder mágico Buff",
+      "description": "Aumenta el daño de los ataques mágicos en un 20%",
+      "type": "buff",
+      "options": {
+        "reward_id": 7,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Regeneración de maná Buff",
+      "description": "Aumenta la regeneración de maná",
+      "type": "buff",
+      "options": {
+        "reward_id": 6,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    },
+    {
+      "name": "Sentido del peligro Buff",
+      "description": "Puedes ver los peligros cercanos",
+      "type": "buff",
+      "options": {
+        "reward_id": 111,
+        "cost_amount": 5,
+        "attribute_id": 4
+      }
+    }
+  ]
+}

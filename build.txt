@@ -1,5 +1,5 @@
 author = Claudio Muñoz
 version = 1.0.0
 versionScheme = ?.?.Fix.Quickfix
-displayName = bGames Mod
+displayName = LifeSync-Games Mod
 buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, tmod\*, ignore\*, ZVidBuild\*, Images\Old*, Images\AllIcons.psd, .git\*, LICENSE, .gitignore
