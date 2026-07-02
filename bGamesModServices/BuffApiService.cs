@@ -13,7 +13,7 @@ namespace bGamesMod.bGamesModServices
 	internal static class BuffApiService
 	{
 		private const string BaseUrl = "http://localhost:8012";
-		internal const int VideoGameId = 12;
+		internal const int VideoGameId = 8;
 
 		private static HttpClient CreateAuthorizedClient()
 		{
