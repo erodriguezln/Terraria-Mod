@@ -31,7 +31,6 @@ namespace bGamesMod
 	internal class bGamesMod : Mod
 	{
 		public static bGamesMod instance;
-		internal List<UIKit.UIComponents.ModCategory> modCategories;
 
 		internal List<CallButtonParameters> callButtons = new();
 		internal List<PermissionsParameters> permissionsParameters = new();
@@ -43,23 +42,6 @@ namespace bGamesMod
 			try
 			{
 				instance = this;
-
-				modCategories = new List<UIKit.UIComponents.ModCategory>();
-
-				if (!Main.dedServ)
-				{
-					// TODO: this should be async, but I'm too lazy to rewrite it to support assets
-					UIKit.UIButton.buttonBackground = Assets.Request<Texture2D>("Images/UIKit/buttonEdge", AssetRequestMode.ImmediateLoad);
-					UIKit.UIView.closeTexture = Assets.Request<Texture2D>("Images/closeButton", AssetRequestMode.ImmediateLoad);
-					UIKit.UITextbox.textboxBackground = Assets.Request<Texture2D>("Images/UIKit/textboxEdge", AssetRequestMode.ImmediateLoad);
-					UIKit.UISlider.barTexture = Assets.Request<Texture2D>("Images/UIKit/barEdge", AssetRequestMode.ImmediateLoad);
-					UIKit.UIScrollView.ScrollbgTexture = Assets.Request<Texture2D>("Images/UIKit/scrollbgEdge", AssetRequestMode.ImmediateLoad);
-					UIKit.UIScrollBar.ScrollbarTexture = Assets.Request<Texture2D>("Images/UIKit/scrollbarEdge", AssetRequestMode.ImmediateLoad);
-					UIKit.UIDropdown.capUp = Assets.Request<Texture2D>("Images/UIKit/dropdownCapUp", AssetRequestMode.ImmediateLoad);
-					UIKit.UIDropdown.capDown = Assets.Request<Texture2D>("Images/UIKit/dropdownCapDown", AssetRequestMode.ImmediateLoad);
-					UIKit.UICheckbox.checkboxTexture = Assets.Request<Texture2D>("Images/UIKit/checkBox", AssetRequestMode.ImmediateLoad);
-					UIKit.UICheckbox.checkmarkTexture = Assets.Request<Texture2D>("Images/UIKit/checkMark", AssetRequestMode.ImmediateLoad);
-				}
 
 				Init_Load();
 
@@ -149,16 +131,7 @@ namespace bGamesMod
 
 		private static bool _prevGameMenu = true;
 
-		// Holds all the loaded services.
-		public static ServiceController ServiceController;
-
 		public static RenderTarget2D RenderTarget { get; set; }
-
-		private static ServiceHotbar _hotbar;
-		public static ServiceHotbar ServiceHotbar
-		{
-			get { return _hotbar; }
-		}
 
 		public static void Init_Load()
 		{
