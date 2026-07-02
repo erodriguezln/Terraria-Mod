@@ -1,23 +1,12 @@
 ﻿using bGamesMod.bGamesModServices;
-using bGamesMod.UIKit;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ReLogic.Content;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using Terraria;
-using Terraria.Chat;
-using Terraria.GameContent;
-using Terraria.GameContent.NetModules;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.UI;
-using ReLogic.Content.Sources;
-using Terraria.ID;
 
 // TODO, freeze is bypassable.
 // TODO, regions prevent all the chest movement and right click.
@@ -62,73 +51,6 @@ namespace bGamesMod
 			return Language.GetTextValue($"Mods.bGamesMod.{key}");
 		}
 
-		// Clear EVERYthing, mod is unloaded.
-		public override void Unload()
-		{
-			UIKit.UIComponents.ItemBrowser.Filters = null;
-			UIKit.UIComponents.ItemBrowser.DefaultSorts = null;
-			UIKit.UIComponents.ItemBrowser.Categories = null;
-			UIKit.UIComponents.ItemBrowser.CategoriesLoaded = false;
-			UIKit.UIButton.buttonBackground = null;
-			UIKit.UIView.closeTexture = null;
-			UIKit.UITextbox.textboxBackground = null;
-			UIKit.UISlider.barTexture = null;
-			UIKit.UIScrollView.ScrollbgTexture = null;
-			UIKit.UIScrollBar.ScrollbarTexture = null;
-			UIKit.UIDropdown.capUp = null;
-			UIKit.UIDropdown.capDown = null;
-			UIKit.UICheckbox.checkboxTexture = null;
-			UIKit.UICheckbox.checkmarkTexture = null;
-			try
-			{
-				if (ServiceController != null)
-				{
-					if (ServiceController.Services != null)
-					{
-						foreach (var service in ServiceController.Services)
-						{
-							service.Unload();
-						}
-					}
-					ServiceController.RemoveAllServices();
-				}
-				if (!Main.dedServ)
-					MasterView.ClearMasterView();
-			}
-			catch (Exception e)
-			{
-				ModUtils.DebugText("Unload:\n" + e.Message + "\n" + e.StackTrace + "\n");
-			}
-			_hotbar = null;
-			ServiceController = null;
-			ModUtils.previousInventoryItems = null;
-			modCategories = null;
-
-			// Stop the reward HTTP server
-			RewardHttpServer.Stop();
-
-
-			instance = null;
-		}
-		
-
-		public override void PostSetupContent()
-		{
-			Init_PostSetupContent();
-
-			permissionsParameters.Clear();
-
-			if (!Main.dedServ)
-			{
-				callButtons.Clear();
-
-				foreach (var service in ServiceController.Services)
-				{
-					service.PostSetupContent();
-				}
-			}
-		}
-
 		private static bool _prevGameMenu = true;
 
 		public static RenderTarget2D RenderTarget { get; set; }
@@ -136,19 +58,6 @@ namespace bGamesMod
 		public static void Init_Load()
 		{
 			ModUtils.Init();
-		}
-
-		public static void Init_PostSetupContent()
-		{
-			if (!Main.dedServ)
-			{
-				UIView.exclusiveControl = null;
-				ServiceController = new ServiceController();
-				_hotbar = new ServiceHotbar();
-				UIKit.UIColorPicker colorPicker = new UIKit.UIColorPicker();
-				colorPicker.X = 200;
-				UIKit.MasterView.menuScreen.AddChild(colorPicker);
-			}
 		}
 
 		public void RegisterButton(string permissionName, Asset<Texture2D> texture, Action buttonClickedAction, Action<bool> groupUpdated, Func<string> tooltip)
@@ -173,55 +82,12 @@ namespace bGamesMod
 				ModUtils.SetDeltaTime(/*gameTime*/);
 				ModUtils.Update();
 
-				//Update all services in the ServiceController
-				foreach (var service in ServiceController.Services)
-				{
-					service.Update();
-				}
-				MasterView.UpdateMaster();
-			}
-		}
-
-		public static void GameEntered()
-		{
-			ModUtils.DebugText("Game Entered");
-
-			if (ModUtils.NetworkMode == NetworkMode.None)
-			{
-				foreach (bGamesModService service in ServiceController.Services)
-				{
-					service.HasPermissionToUse = !service.MultiplayerOnly;
-				}
-				ServiceController.ServiceRemovedCall();
-			}
-			else
-			{
-				foreach (bGamesModService service in ServiceController.Services)
-				{
-					service.HasPermissionToUse = true;
-				}
 			}
 		}
 
 		public static void GameLeft()
 		{
 			ModUtils.DebugText("Game left");
-		}
-
-		public static void Draw(SpriteBatch spriteBatch)
-		{
-			UIKit.MasterView.DrawMaster(spriteBatch);
-			{
-				foreach (var service in ServiceController.Services)
-				{
-					service.Draw(spriteBatch);
-				}
-			}
-
-			if (!string.IsNullOrEmpty(UIView.HoverText))
-			{
-				Main.hoverItemName = UIView.HoverText;
-			}
 		}
 
 		private static void ApplyBuff(int buffId)

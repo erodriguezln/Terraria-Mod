@@ -22,13 +22,12 @@ namespace bGamesMod
 						try
 						{
 							bGamesMod.Update();
-
-							bGamesMod.Draw(Main.spriteBatch);
 						}
 						catch (Exception e)
 						{
 							ModUtils.DebugText("PostDrawInInventory Error: " + e.Message + e.StackTrace);
 						}
+
 						return true;
 					},
 					InterfaceScaleType.UI)
@@ -46,6 +45,6 @@ namespace bGamesMod
 					InterfaceScaleType.Game)
 				);
 			}
-		}	
+		}
 	}
 }
