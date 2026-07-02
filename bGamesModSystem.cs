@@ -23,8 +23,6 @@ namespace bGamesMod
 						{
 							bGamesMod.Update();
 
-							bGamesMod.ServiceHotbar.Update();
-
 							bGamesMod.Draw(Main.spriteBatch);
 						}
 						catch (Exception e)
