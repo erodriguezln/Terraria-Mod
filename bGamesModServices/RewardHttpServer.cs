@@ -1,6 +1,7 @@
-﻿#nullable enable
+#nullable enable
 
 using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -19,7 +20,6 @@ namespace bGamesMod.bGamesModServices
 	internal static class RewardHttpServer
 	{
 		private const int Port = 7878;
-		private const int NoPendingValue = -1;
 
 		// Usado por HTTP thread para escuchar requests. Necesita estar set para que ListenLoop() funcione.
 		private static HttpListener? _listener;
@@ -33,8 +33,9 @@ namespace bGamesMod.bGamesModServices
 		// _logger:      Logger compartido. Usado por ambos threads para logging.
 		private static Action<string>? _logger;
 
-		// Estado compartido entre threads: guarda el reward pendiente hasta que DrainPending() lo consuma.
-		private static volatile int _pendingValue = NoPendingValue;
+		// Cola concurrente segura para almacenar múltiples recompensas entrantes desde el HTTP thread
+		// sin riesgo de sobre escritura o condiciones de carrera.
+		private static readonly ConcurrentQueue<int> PendingRewards = new ConcurrentQueue<int>();
 
 		// Inicia el listener HTTP en un thread en segundo plano.
 		public static void Start(Action<int> onReward, Action<string>? logger = null)
@@ -44,6 +45,9 @@ namespace bGamesMod.bGamesModServices
 
 			_onReward = onReward ?? throw new ArgumentNullException(nameof(onReward));
 			_logger = logger ?? Console.WriteLine;
+
+			// Limpiar cualquier residuo de ejecuciones anteriores de manera sencilla y clara
+			PendingRewards.Clear();
 
 			_listener = new HttpListener();
 			_listener.Prefixes.Add($"http://localhost:{Port}/");
@@ -77,24 +81,20 @@ namespace bGamesMod.bGamesModServices
 				_thread = null;
 				_onReward = null;
 				_logger = null;
-				_pendingValue = NoPendingValue;
 				// Limpia el estado compartido para que un reinicio arranque desde cero.
+				PendingRewards.Clear();
 			}
 		}
 
-		// Transfiere cualquier _pendingValue recibido por el HTTP thread al main thread e invoca el callback registrado.
+		// Transfiere todas las recompensas recibidas por el HTTP thread al main thread e invoca el callback registrado.
 		// Debe ser llamado en cada game loop.
 		public static void DrainPending()
 		{
-			int value = _pendingValue;
-			if (value == NoPendingValue)
-				return;
-
-			// Reset antes de invocar para permitir que llegue un nuevo request inmediatamente.
-			_pendingValue = NoPendingValue;
-
 			// El callback corre en el main thread de la aplicación, donde es seguro tocar estado compartido.
-			_onReward?.Invoke(value);
+			while (PendingRewards.TryDequeue(out int rewardId))
+			{
+				_onReward?.Invoke(rewardId);
+			}
 		}
 
 		// Background listener loop (bloqueante). Razon por la que el HTTP server corre en un thread separado.
@@ -192,8 +192,8 @@ namespace bGamesMod.bGamesModServices
 				return;
 			}
 
-			// Señala al main thread, si llega otra request antes de DrainPending(), este valor se sobreescribe.
-			_pendingValue = payload.RewardId;
+			// Encolar de forma segura en la cola concurrente para ser consumido por el main thread
+			PendingRewards.Enqueue(payload.RewardId);
 			Log($"[RewardHttpServer] Reward queued -> reward_id={payload.RewardId}");
 
 			SendJson(resp, 200, $"{{\"ok\":true,\"reward_id\":{payload.RewardId}}}");
