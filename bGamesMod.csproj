@@ -4,6 +4,8 @@
   <PropertyGroup>
     <AssemblyName>bGamesMod</AssemblyName>
     <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Images\bGames\afective.png" />

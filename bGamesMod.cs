@@ -35,18 +35,46 @@ namespace bGamesMod
 
 		public static void Update()
 		{
+			UpdateGameReady();
+
 			// Drain pending buff from the HTTP server
 			RewardHttpServer.DrainPending();
 		}
 
-		private static void ApplyReward(int rewardId)
+		// El servidor solo se marca como listo cuando existe un jugador activo y se puede aplicar el buff.
+		private static void UpdateGameReady()
 		{
-			if (rewardId >= Terraria.ID.BuffID.Count) return;
+			RewardHttpServer.SetGameReady(IsGameReady());
+		}
 
-			if (Main.gameMenu || Main.myPlayer < 0 || Main.myPlayer >= Main.player.Length) return;
+		private static bool IsGameReady()
+		{
+			if (Main.gameMenu || Main.myPlayer < 0 || Main.myPlayer >= Main.player.Length)
+			{
+				return false;
+			}
 
 			var player = Main.player[Main.myPlayer];
-			if (player == null || !player.active) return;
+			return player != null && player.active;
+		}
+
+		private static RewardApplicationResult ApplyReward(int rewardId)
+		{
+			if (!IsGameReady())
+			{
+				ModUtils.DebugText($"Reward '{rewardId}' ignored because the world is not ready.");
+				return new RewardApplicationResult(false, "game_not_ready",
+					"No game is ready to apply rewards.");
+			}
+
+			if (rewardId >= Terraria.ID.BuffID.Count)
+			{
+				ModUtils.DebugText($"Unknown reward_id={rewardId}. Reward ignored.");
+				return new RewardApplicationResult(false, "unknown_reward",
+					"Reward is not supported.");
+			}
+
+			var player = Main.player[Main.myPlayer];
 
 			player.AddBuff(rewardId, 60 * 60);
 
@@ -57,6 +85,8 @@ namespace bGamesMod
 			Main.NewText($"[LifeSync-Games] Buff aplicado: {buffName}", 100, 220, 100);
 			ModUtils.DebugText(
 				$"[RewardHttpServer] Reward applied: reward_id={rewardId}, buff={buffName}, player={Main.player[Main.myPlayer].name}");
+
+			return new RewardApplicationResult(true);
 		}
 	}
 }
