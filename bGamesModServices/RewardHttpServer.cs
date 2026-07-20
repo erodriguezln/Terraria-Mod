@@ -130,6 +130,17 @@ namespace bGamesMod.bGamesModServices
             }
         }
 
+        // Pensado para cuando el juego vuelve al título y habian rewards pendientes. Cancela todos los canjes pendientes y devuelve un error a cada request HTTP.
+        public static void DrainPendingAndCancel()
+        {
+            while (PendingRewards.TryDequeue(out PendingReward? pendingReward))
+            {
+                pendingReward.Completion.TrySetResult(new RewardApplicationResult(false,
+                    "game_not_ready",
+                    "The game is not ready to apply rewards."));
+            }
+        }
+
         // Setea si el juego está listo para aplicar recompensas.
         public static void SetGameReady(bool isReady)
         {
@@ -186,7 +197,9 @@ namespace bGamesMod.bGamesModServices
                                     .Equals("/health", StringComparison.OrdinalIgnoreCase);
 
                 if (isReward)
+                {
                     HandleReward(req, resp);
+                }
                 else if (isHealth)
                 {
                     string gameReady = _gameReady ? "true" : "false";

@@ -15,6 +15,7 @@ namespace bGamesMod
 		{
 			// Se ejecuta inmediatamente al abandonar una partida, antes de volver al menú.
 			RewardHttpServer.SetGameReady(false);
+			RewardHttpServer.DrainPendingAndCancel();
 		}
 
 		public override void UpdateUI(Microsoft.Xna.Framework.GameTime gameTime)
