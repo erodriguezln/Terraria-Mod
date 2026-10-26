@@ -1,9 +1,11 @@
 ﻿
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\tModLoader.targets" />
+    <Import Project="$(UserProfile)\OneDrive\Documents\My Games\Terraria\tModLoader\ModSources\tModLoader.targets" />
   <PropertyGroup>
     <AssemblyName>bGamesMod</AssemblyName>
     <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Images\bGames\afective.png" />
